@@ -1,0 +1,160 @@
+FUNCTION "TRAVEL"."TRAVEL::GEOGRAPHY"( )   
+	RETURNS TABLE ( parent NVARCHAR(20), child NVARCHAR(20), DESC NVARCHAR(20))
+	LANGUAGE SQLSCRIPT 
+	AS
+BEGIN
+DECLARE parent NVARCHAR(20) ARRAY; 
+DECLARE child NVARCHAR(20) ARRAY;
+DECLARE geo_desc NVARCHAR(20) ARRAY;
+
+parent[1]   := ''; 
+child[1]    := 'WORLD';
+geo_desc[1] := 'World';
+
+parent[2]   := 'WORLD';
+child[2]    := 'AFRICA';
+geo_desc[2] := 'Africa';
+
+parent[3]   := 'AFRICA';
+child[3]    := 'SOUTH AFRICA';
+geo_desc[3] := 'South Africa';
+
+parent[4]   := 'SOUTH AFRICA';
+child[4]    := 'SA';
+geo_desc[4] := NULL;
+
+parent[5]   := 'WORLD';
+child[5]    := 'ASIA';
+geo_desc[5] := 'Asia';
+
+parent[6]   := 'ASIA'; 
+child[6]    := 'FIJI';
+geo_desc[6] := 'Fiji';
+
+parent[7]   := 'FIJI';
+child[7]    := 'FJ';
+geo_desc[7] := NULL;
+
+parent[8]   := 'ASIA';
+child[8]    := 'JAPAN';
+geo_desc[8] := 'Japan';
+
+parent[9]   := 'JAPAN';
+child[9]    := 'JL';
+geo_desc[9] := NULL;
+
+parent[10]   := 'ASIA';
+child[10]    := 'SINGAPURE';
+geo_desc[10] := 'Singapure';
+
+parent[11]   := 'SINGAPURE';
+child[11]    := 'SQ';
+geo_desc[11] := NULL;
+
+parent[12]   := 'WORLD';
+child[12]    := 'AUSTRALIA';
+geo_desc[12] := 'Australia';
+
+parent[13]   := 'AUSTRALIA';
+child[13]    := 'QF';
+geo_desc[13] := NULL;
+
+parent[14]   := 'WORLD';
+child[14]    := 'EUROPE';
+geo_desc[14] := 'Europe';
+
+parent[15]   := 'EUROPE';
+child[15]    := 'AUSTRIA';
+geo_desc[15] := 'Austria';
+
+parent[16]   := 'AUSTRIA';
+child[16]    := 'NG';
+geo_desc[16] := NULL;
+
+parent[17]   := 'EUROPE';
+child[17]    := 'FRANCE';
+geo_desc[17] := 'France';
+
+parent[18]   := 'FRANCE';
+child[18]    := 'AF';
+geo_desc[18] := NULL;
+
+parent[19]   := 'EUROPE';
+child[19]    := 'GERMANY';
+geo_desc[19] := 'Germany';
+
+parent[20]   := 'GERMANY';
+child[20]    := 'AB';
+geo_desc[20] := NULL;
+
+parent[21]   := 'GERMANY';
+child[21]    := 'LH';
+geo_desc[21] := NULL;
+
+parent[22]   := 'EUROPE';
+child[22]    := 'ITALY';
+geo_desc[22] := 'Italy';
+
+parent[23]   := 'ITALY';
+child[23]    := 'AZ';
+geo_desc[23] := NULL;
+
+parent[24]   := 'EUROPE';
+child[24]    := 'SWIRZERLAND';
+geo_desc[24] := 'Swirzerland';
+
+parent[25]   := 'SWIRZERLAND';
+child[25]    := 'SR';
+geo_desc[25] := NULL;
+
+parent[26]   := 'EUROPE';
+child[26]    := 'UK';
+geo_desc[26] := 'UK';
+
+parent[27]   := 'UK';
+child[27]    := 'BA';
+geo_desc[27] := NULL;
+
+parent[28]   := 'WORLD';
+child[28]    := 'NORTH AMERICA';
+geo_desc[28] := 'North America';
+
+parent[29]   := 'NORTH AMERICA';
+child[29]    := 'CANADA';
+geo_desc[29] := 'Canada';
+
+parent[30]   := 'CANADA';
+child[30]    := 'AC';
+geo_desc[30] := NULL;
+
+parent[31]   := 'NORTH AMERICA';
+child[31]    := 'US';
+geo_desc[31] := 'US';
+
+parent[32]   := 'US';
+child[32]    := 'AA';
+geo_desc[32] := NULL;
+
+parent[33]   := 'US';
+child[33]    := 'CO';
+geo_desc[33] := NULL;
+
+parent[34]   := 'US';
+child[34]    := 'DL';
+geo_desc[34] := NULL;
+
+parent[35]   := 'US';
+child[35]    := 'NW';
+geo_desc[35] := NULL;
+
+parent[36]   := 'US';
+child[36]    := 'UA';
+geo_desc[36] := NULL;
+
+
+geo =  UNNEST(:parent, :child, :geo_desc) AS ("PARENT", "CHILD","GEO_DESC");
+RETURN SELECT geo.parent, geo.child, CAST( coalesce(geo_desc,carrname) as nvarchar(20) ) as desc
+FROM :geo as geo LEFT JOIN "TRAVEL"."SCARR" AS scarr ON geo.child = scarr.carrid AND scarr.mandt = '001';
+
+END
+

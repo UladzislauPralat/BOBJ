@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" xmlns:Dimension="http://www.sap.com/ndb/BiModelDimension.ecore" schemaVersion="2.3" id="TRAVEL_CARR" applyPrivilegeType="ANALYTIC_PRIVILEGE" checkAnalyticPrivileges="true" defaultClient="$$client$$" defaultLanguage="$$language$$" hierarchiesSQLEnabled="false" translationRelevant="true" visibility="internal" calculationScenarioType="TREE_BASED" dataCategory="DIMENSION" enforceSqlExecution="false" executionSemantic="UNDEFINED" outputViewType="Projection">
+  <origin/>
+  <descriptions defaultDescription="TRAVEL_CARR"/>
+  <metadata changedAt="2017-02-13 11:00:37.048"/>
+  <localVariables/>
+  <variableMappings/>
+  <informationModelLayout relativeWidthScenario="27"/>
+  <dataSources>
+    <DataSource id="GEOGRAPHY" type="TABLE_FUNCTION">
+      <resourceUri>TRAVEL::GEOGRAPHY</resourceUri>
+    </DataSource>
+  </dataSources>
+  <calculationViews/>
+  <inlineHierarchy xsi:type="Dimension:ParentChildHierarchy" id="Geography" aggregateAllNodes="true" cycleHandling="BREAKUP" rootNodeVisibility="ADD_ROOT_NODE_IF_DEFINED">
+    <descriptions defaultDescription="Geography"/>
+    <unassignedMemberProperties>
+      <name xsi:nil="true"/>
+      <nullConvertValue xsi:nil="true"/>
+    </unassignedMemberProperties>
+    <attributeParentPair attribute="#CHILD" parentAttribute="#PARENT"/>
+  </inlineHierarchy>
+  <logicalModel id="GEOGRAPHY">
+    <descriptions/>
+    <attributes>
+      <attribute id="PARENT" order="1" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="PARENT"/>
+        <keyMapping columnObjectName="GEOGRAPHY" columnName="PARENT"/>
+      </attribute>
+      <attribute id="CHILD" order="2" attributeHierarchyActive="false" descriptionColumnName="DESC" displayAttribute="false">
+        <descriptions defaultDescription="CHILD"/>
+        <keyMapping columnObjectName="GEOGRAPHY" columnName="CHILD"/>
+      </attribute>
+      <attribute id="DESC" order="3" attributeHierarchyActive="false" displayAttribute="false">
+        <descriptions defaultDescription="DESC"/>
+        <keyMapping columnObjectName="GEOGRAPHY" columnName="DESC"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures/>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="40" y="85"/>
+        <rectangleSize height="0" width="0"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

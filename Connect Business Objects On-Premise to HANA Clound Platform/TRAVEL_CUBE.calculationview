@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="TRAVEL_CUBE" applyPrivilegeType="ANALYTIC_PRIVILEGE" checkAnalyticPrivileges="true" defaultClient="001" defaultLanguage="$$language$$" hierarchiesSQLEnabled="false" translationRelevant="true" visibility="reportingEnabled" calculationScenarioType="TREE_BASED" dataCategory="CUBE" enforceSqlExecution="false" executionSemantic="UNDEFINED">
+  <origin/>
+  <descriptions defaultDescription="TRAVEL_CUBE"/>
+  <metadata changedAt="2017-02-13 13:31:51.384"/>
+  <localVariables/>
+  <variableMappings/>
+  <informationModelLayout relativeWidthScenario="27"/>
+  <dataSources>
+    <DataSource id="SFLIGHT" type="DATA_BASE_TABLE">
+      <viewAttributes allViewAttributes="true"/>
+      <columnObject schemaName="TRAVEL" columnObjectName="SFLIGHT"/>
+    </DataSource>
+  </dataSources>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:AggregationView" id="Aggregation_1">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute id="CARRID"/>
+        <viewAttribute aggregationType="sum" id="SEATSMAX"/>
+        <viewAttribute aggregationType="sum" id="SEATSOCC"/>
+        <viewAttribute aggregationType="sum" id="SEATSMAX_B"/>
+        <viewAttribute aggregationType="sum" id="SEATSOCC_B"/>
+        <viewAttribute aggregationType="sum" id="SEATSMAX_F"/>
+        <viewAttribute aggregationType="sum" id="SEATSOCC_F"/>
+        <viewAttribute id="MANDT"/>
+        <viewAttribute id="FLDATE"/>
+      </viewAttributes>
+      <calculatedViewAttributes>
+        <calculatedViewAttribute datatype="INTEGER" id="Seats_Max" expressionLanguage="COLUMN_ENGINE">
+          <formula>&quot;SEATSMAX&quot;+&quot;SEATSMAX_B&quot;+&quot;SEATSMAX_F&quot;</formula>
+        </calculatedViewAttribute>
+        <calculatedViewAttribute datatype="INTEGER" id="Seats_Occ" expressionLanguage="COLUMN_ENGINE">
+          <formula>&quot;SEATSOCC&quot;+&quot;SEATSOCC_B&quot;+&quot;SEATSOCC_F&quot;</formula>
+        </calculatedViewAttribute>
+      </calculatedViewAttributes>
+      <input node="#SFLIGHT">
+        <mapping xsi:type="Calculation:AttributeMapping" target="CARRID" source="CARRID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="SEATSMAX" source="SEATSMAX"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="SEATSOCC" source="SEATSOCC"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="SEATSMAX_B" source="SEATSMAX_B"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="SEATSOCC_B" source="SEATSOCC_B"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="SEATSMAX_F" source="SEATSMAX_F"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="SEATSOCC_F" source="SEATSOCC_F"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="MANDT" source="MANDT"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="FLDATE" source="FLDATE"/>
+      </input>
+      <filter>&quot;MANDT&quot;='001'</filter>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="Aggregation_1">
+    <descriptions/>
+    <attributes>
+      <attribute id="CARRID$local">
+        <descriptions/>
+        <keyMapping columnObjectName="Aggregation_1" columnName="CARRID"/>
+      </attribute>
+      <attribute id="FLDATE$local">
+        <descriptions/>
+        <keyMapping columnObjectName="Aggregation_1" columnName="FLDATE"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures>
+      <measure id="SEATSMAX" order="1" aggregationType="sum" measureType="simple">
+        <descriptions defaultDescription="Seats Max Economy"/>
+        <measureMapping columnObjectName="Aggregation_1" columnName="SEATSMAX"/>
+      </measure>
+      <measure id="SEATSOCC" order="2" aggregationType="sum" measureType="simple">
+        <descriptions defaultDescription="Seats Occ Economy"/>
+        <measureMapping columnObjectName="Aggregation_1" columnName="SEATSOCC"/>
+      </measure>
+      <measure id="SEATSMAX_B" order="3" aggregationType="sum" measureType="simple">
+        <descriptions defaultDescription="Seats Max Business"/>
+        <measureMapping columnObjectName="Aggregation_1" columnName="SEATSMAX_B"/>
+      </measure>
+      <measure id="SEATSOCC_B" order="4" aggregationType="sum" measureType="simple">
+        <descriptions defaultDescription="Seats Occ Business"/>
+        <measureMapping columnObjectName="Aggregation_1" columnName="SEATSOCC_B"/>
+      </measure>
+      <measure id="SEATSMAX_F" order="5" aggregationType="sum" measureType="simple">
+        <descriptions defaultDescription="Seats Max First "/>
+        <measureMapping columnObjectName="Aggregation_1" columnName="SEATSMAX_F"/>
+      </measure>
+      <measure id="SEATSOCC_F" order="6" aggregationType="sum" measureType="simple">
+        <descriptions defaultDescription="Seats Occ First"/>
+        <measureMapping columnObjectName="Aggregation_1" columnName="SEATSOCC_F"/>
+      </measure>
+      <measure id="Seats_Max" order="7" aggregationType="sum" measureType="simple">
+        <descriptions defaultDescription="Seats Max"/>
+        <measureMapping columnObjectName="Aggregation_1" columnName="Seats_Max"/>
+      </measure>
+      <measure id="Seats_Occ" order="8" aggregationType="sum" measureType="simple">
+        <descriptions defaultDescription="Seats Occ"/>
+        <measureMapping columnObjectName="Aggregation_1" columnName="Seats_Occ"/>
+      </measure>
+    </baseMeasures>
+    <calculatedMeasures>
+      <measure id="Seats_Occ_Prc" hidden="false" order="9" aggregationType="sum" measureType="simple" datatype="DECIMAL" expressionLanguage="COLUMN_ENGINE" length="12" scale="2">
+        <descriptions defaultDescription="Seats Occ (%)"/>
+        <formula>(&quot;Seats_Occ&quot; / &quot;Seats_Max&quot;)</formula>
+      </measure>
+    </calculatedMeasures>
+    <restrictedMeasures/>
+    <localDimensions/>
+    <sharedDimensions>
+      <logicalJoin associatedObjectUri="/TRAVEL/calculationviews/TRAVEL_CARR">
+        <attributes>
+          <attributeRef>#CARRID$local</attributeRef>
+        </attributes>
+        <associatedAttributeNames>
+          <attributeName>CHILD</attributeName>
+        </associatedAttributeNames>
+        <properties joinOperator="Equal" joinType="referential"/>
+        <associatedAttributeFeatures/>
+      </logicalJoin>
+      <logicalJoin associatedObjectUri="/TRAVEL/calculationviews/TRAVEL_TIME">
+        <attributes>
+          <attributeRef>#FLDATE$local</attributeRef>
+        </attributes>
+        <associatedAttributeNames>
+          <attributeName>DATE_SAP</attributeName>
+        </associatedAttributeNames>
+        <properties joinOperator="Equal" joinType="referential"/>
+        <associatedAttributeFeatures/>
+      </logicalJoin>
+    </sharedDimensions>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="40" y="220"/>
+        <rectangleSize height="0" width="0"/>
+      </shape>
+      <shape expanded="true" modelObjectName="Aggregation_1" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="40" y="410"/>
+        <rectangleSize height="-1" width="-1"/>
+      </shape>
+      <shape modelObjectName="Aggregation_1" modelObjectNameSpace="StarJoinViewNodeInput" modelObjectType="repository">
+        <upperLeftCorner x="250" y="250"/>
+      </shape>
+      <shape modelObjectName="/TRAVEL/calculationviews/TRAVEL_CARR" modelObjectNameSpace="StarJoinViewNodeSharedCV" modelObjectType="repository">
+        <upperLeftCorner x="614" y="30"/>
+      </shape>
+      <shape modelObjectName="/TRAVEL/calculationviews/TRAVEL_TIME" modelObjectNameSpace="StarJoinViewNodeSharedCV" modelObjectType="repository">
+        <upperLeftCorner x="745" y="226"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>
